@@ -4,6 +4,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
+import 'package:intl/intl.dart';
 
 class ImageDetailView extends StatelessWidget {
   final String imageUrl;
@@ -15,7 +16,8 @@ class ImageDetailView extends StatelessWidget {
       final response = await http.get(Uri.parse(imageUrl));
       if (response.statusCode == 200) {
         final documentDirectory = await getApplicationDocumentsDirectory();
-        final filePath = path.join(documentDirectory.path, 'saved_image.png');
+        final timestamp = DateFormat('ddMMyyyy_HHmmss').format(DateTime.now());
+        final filePath = path.join(documentDirectory.path, 'image_$timestamp.png');
         final file = File(filePath);
         await file.writeAsBytes(response.bodyBytes);
 
