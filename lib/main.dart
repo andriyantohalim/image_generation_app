@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => ChatViewModel(),
-      child: const MaterialApp(
+      child: MaterialApp(
         home: ChatView(),
       ),
     );
