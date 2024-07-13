@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class OpenAIService {
-  final String _apiKey = 'OPENAI_API_KEY';
+  final String _apiKey = dotenv.env['OPENAI_API_KEY'] ?? '';
 
   Future<String> generateImage(String prompt) async {
     final response = await http.post(
