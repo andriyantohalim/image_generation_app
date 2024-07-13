@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodels/chat_viewmodel.dart';
+import 'image_detail_view.dart';
 
 class ChatView extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
@@ -37,7 +38,17 @@ class ChatView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: message.imageUrl.isNotEmpty
-                          ? Image.network(message.imageUrl)
+                          ? GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ImageDetailView(imageUrl: message.imageUrl),
+                                  ),
+                                );
+                              },
+                              child: Image.network(message.imageUrl),
+                            )
                           : Text(message.text),
                     ),
                   );
