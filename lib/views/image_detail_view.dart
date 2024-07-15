@@ -13,14 +13,35 @@ class ImageDetailView extends StatelessWidget {
   const ImageDetailView({super.key, required this.imageUrl});
 
   Future<void> _saveImage(BuildContext context) async {
-    try {
-      final response = await http.get(Uri.parse(imageUrl));
-      if (response.statusCode == 200) {
-        final documentDirectory = await getApplicationDocumentsDirectory();
-        final timestamp = DateFormat('ddMMyyyy_HHmmss').format(DateTime.now());
-        final filePath = path.join(documentDirectory.path, 'image_$timestamp.png');
-        final file = File(filePath);
-        await file.writeAsBytes(response.bodyBytes);
+    // Request permissions
+    // if (Platform.isAndroid) {
+    //   await Permission.storage.request();
+    // } else if (Platform.isIOS) {
+    //   await Permission.photos.request();
+    // }
+
+    await Permission.storage.request();
+    await Permission.photos.request();
+    await Permission.mediaLibrary.request();
+    await Permission.manageExternalStorage.request();
+
+    // Check permissions
+    if (await Permission.storage.isGranted || await Permission.photos.isGranted || await Permission.mediaLibrary.isGranted || await Permission.manageExternalStorage.isGranted) {
+      try {
+        final response = await http.get(Uri.parse(imageUrl));
+        if (response.statusCode == 200) {
+          // final directory = Platform.isAndroid
+          //     ? await getExternalStorageDirectory()
+          //     : await getTemporaryDirectory();
+          final directory = await getDownloadsDirectory();
+          final picturesDirectory = Directory('${directory!.path}/Pictures');
+          if (!await picturesDirectory.exists()) {
+            await picturesDirectory.create(recursive: true);
+          }
+          final timestamp = DateFormat('dd_MM_yy_HH_mm_ss').format(DateTime.now());
+          final filePath = path.join(picturesDirectory.path, 'image_$timestamp.png');
+          final file = File(filePath);
+          await file.writeAsBytes(response.bodyBytes);
 
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Image saved to $filePath')),

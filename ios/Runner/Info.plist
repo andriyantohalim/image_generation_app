@@ -45,10 +45,6 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-<<<<<<< HEAD
-=======
-
->>>>>>> 0e0ee91 (save on local folder)
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>We need to save photos to your library</string>
 </dict>
