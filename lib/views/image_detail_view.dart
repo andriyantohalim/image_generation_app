@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:intl/intl.dart';
 
+
 class ImageDetailView extends StatelessWidget {
   final String imageUrl;
 
@@ -14,12 +15,6 @@ class ImageDetailView extends StatelessWidget {
 
   Future<void> _saveImage(BuildContext context) async {
     // Request permissions
-    // if (Platform.isAndroid) {
-    //   await Permission.storage.request();
-    // } else if (Platform.isIOS) {
-    //   await Permission.photos.request();
-    // }
-
     await Permission.storage.request();
     await Permission.photos.request();
     await Permission.mediaLibrary.request();
@@ -30,9 +25,6 @@ class ImageDetailView extends StatelessWidget {
       try {
         final response = await http.get(Uri.parse(imageUrl));
         if (response.statusCode == 200) {
-          // final directory = Platform.isAndroid
-          //     ? await getExternalStorageDirectory()
-          //     : await getTemporaryDirectory();
           final directory = await getDownloadsDirectory();
           final picturesDirectory = Directory('${directory!.path}/Pictures');
           if (!await picturesDirectory.exists()) {
