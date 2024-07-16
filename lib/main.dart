@@ -3,6 +3,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'viewmodels/chat_viewmodel.dart';
+import 'viewmodels/image_detail_viewmodel.dart';
 import 'views/chat_view.dart';
 
 Future<void> main() async {
@@ -19,8 +20,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => ChatViewModel(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ChatViewModel()),
+        ChangeNotifierProvider(create: (_) => ImageDetailViewModel()),
+      ],
       child: MaterialApp(
         home: ChatView(),
       ),
