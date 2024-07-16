@@ -2,6 +2,8 @@
 
 This Flutter application allows users to generate images based on textual prompts using the OpenAI API. The app follows the MVVM design pattern for better organization and maintainability.
 
+Watch the demo [here](https://www.youtube.com/shorts/_s6Rt5hgWlM)
+
 ## Getting Started
 
 ### Prerequisites
